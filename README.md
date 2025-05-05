@@ -1,73 +1,130 @@
-# Welcome to your Lovable project
 
-## Project info
+# TaskFlow - Task Management Application
 
-**URL**: https://lovable.dev/projects/314081ee-fbba-4a80-bbef-9af53882e3f8
+## Overview
+TaskFlow is a comprehensive task management application built with modern web technologies. It helps teams organize, track, and manage tasks efficiently with features like task assignment, priority setting, and audit logging.
 
-## How can I edit this code?
+## Core Features
 
-There are several ways of editing your application.
+### User Authentication & Authorization
+- Secure login and registration system
+- Role-based permissions (Admin, Manager, User)
+- Profile management with customizable notification preferences
 
-**Use Lovable**
+### Task Management
+- Create, edit, and delete tasks with detailed information
+- Set task priorities (Low, Medium, High)
+- Track task status (Todo, In Progress, Review, Done)
+- Task assignment to team members
+- Due date tracking with visual indicators
+- Recurring task support (daily, weekly, monthly)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/314081ee-fbba-4a80-bbef-9af53882e3f8) and start prompting.
+### Team Collaboration
+- Team member directory with role information
+- Task assignment and reassignment
+- Comment threads on tasks (coming soon)
+- Activity feed showing recent changes
 
-Changes made via Lovable will be committed automatically to this repo.
+### Dashboard & Analytics
+- Overview of task status distribution
+- Personal task summary
+- Team productivity metrics
+- Upcoming deadlines visualization
+- Performance trends over time
 
-**Use your preferred IDE**
+### Audit Logging & History
+- Comprehensive audit trail for all system actions
+- User activity tracking
+- Historical record of task changes
+- Detailed timestamps for compliance purposes
+- Filterable audit log viewer
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Offline Support
+- Progressive Web App (PWA) capabilities
+- Service worker implementation for offline access
+- Background synchronization when connection is restored
+- Local storage for temporary data persistence
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Notification System
+- In-app notifications for task updates
+- Email notification support (configurable)
+- Task due date reminders
+- Assignment notifications
 
-Follow these steps:
+### UI/UX Features
+- Responsive design for all device sizes
+- Dark/light theme support
+- Accessible interface following WCAG guidelines
+- Intuitive drag-and-drop interfaces
+- Keyboard shortcuts for power users
 
+### Technical Architecture
+- React front-end with TypeScript for type safety
+- Context API for state management
+- Service worker for offline capabilities
+- Local storage database with IndexedDB
+- MongoDB integration (optional)
+
+## Getting Started
+
+### Prerequisites
+- Node.js & npm installed
+
+### Local Development
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Install dependencies
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Environment Configuration
+Create a `.env` file based on `.env.example` with your configuration:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+# MongoDB Connection (if using)
+MONGODB_URI=mongodb://localhost:27017
+MONGODB_DB_NAME=taskflow
 
-**Use GitHub Codespaces**
+# JWT Secret for Authentication
+JWT_SECRET=your-secret-key-here
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# SMTP Settings for Email Notifications
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=your-email@example.com
+SMTP_PASS=your-email-password
+SMTP_FROM=noreply@example.com
 
-## What technologies are used for this project?
+# App Settings
+APP_URL=http://localhost:5173
+NODE_ENV=development
+```
 
-This project is built with:
+## Advanced Features
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Audit Logging System
+TaskFlow includes a powerful audit logging system that records all significant actions within the application. This feature is particularly useful for:
+- Compliance requirements
+- Security monitoring
+- User activity tracking
+- Troubleshooting issues
 
-## How can I deploy this project?
+Administrators can access the audit logs through the dedicated Audit Logs page.
 
-Simply open [Lovable](https://lovable.dev/projects/314081ee-fbba-4a80-bbef-9af53882e3f8) and click on Share -> Publish.
+### Debug Mode
+For administrators and developers, TaskFlow includes a debug mode that can be activated by pressing `Alt+D`. This mode provides additional tools and information to help diagnose issues in the system.
 
-## Can I connect a custom domain to my Lovable project?
+### Data Import/Export
+TaskFlow supports importing and exporting task data in CSV format, making it easy to migrate data or generate reports for external use.
 
-Yes, you can!
+## Browser Support
+- Chrome (latest 2 versions)
+- Firefox (latest 2 versions)
+- Safari (latest 2 versions)
+- Edge (latest 2 versions)
+- Opera (latest version)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.

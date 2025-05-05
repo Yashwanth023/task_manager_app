@@ -1,5 +1,6 @@
 
 import { getAuditLogs, createAuditLog } from "./local-storage-db";
+import { AuditAction, EntityType } from "@/types";
 
 /**
  * Debug helper function to check if audit logs are being properly recorded
@@ -19,8 +20,8 @@ export const checkAuditLogsStatus = () => {
     try {
       createAuditLog({
         userId: "system",
-        action: "debug",
-        entityType: "system",
+        action: "debug" as AuditAction,
+        entityType: "system" as EntityType,
         entityId: "debug-check",
         details: "System debug check for audit logs",
       });

@@ -50,11 +50,14 @@ export type Task = {
   } | null;
 };
 
+export type AuditAction = "create" | "update" | "delete" | "assign" | "debug" | "system";
+export type EntityType = "task" | "user" | "system";
+
 export type AuditLog = {
   id: string;
   userId: string;
-  action: "create" | "update" | "delete" | "assign";
-  entityType: "task" | "user";
+  action: AuditAction;
+  entityType: EntityType;
   entityId: string;
   details: string;
   timestamp: string;
