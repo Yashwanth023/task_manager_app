@@ -92,4 +92,3 @@ export const createSampleAuditLogs = () => {
     console.log("Sample audit logs created successfully!");
   }
 };
-

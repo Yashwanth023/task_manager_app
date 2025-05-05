@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "./Navbar";
 import { initDatabase } from "@/lib/local-storage-db";
-import { createSampleAuditLogs } from "@/lib/init-test-data";
+import { createSampleAuditLogs } from "@/lib/debug-utils";
 import { toast } from "@/components/ui/sonner";
 
 export const AuthLayout: React.FC = () => {
