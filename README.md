@@ -123,4 +123,4 @@ TaskFlow supports importing and exporting task data in CSV format, making it eas
 - Firefox (latest 2 versions)
 - Safari (latest 2 versions)
 - Edge (latest 2 versions)
-- Opera (latest version)
+
