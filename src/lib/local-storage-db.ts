@@ -1,4 +1,5 @@
-import { User, Task, AuditLog, Notification, UserRole } from "@/types";
+
+import { User, Task, AuditLog, Notification, UserRole, TaskStatus, TaskPriority } from "@/types";
 import { toast } from "@/components/ui/sonner";
 
 // Default admin user
@@ -393,21 +394,21 @@ export const getUserDashboardData = (userId: string) => {
     
     const overdueTasks = assignedTasks.filter(task => {
       if (!task.dueDate) return false;
-      if (task.status === "done") return false;
+      if (task.status === TaskStatus.DONE) return false;
       return new Date(task.dueDate) < new Date();
     });
     
     const tasksByStatus = {
-      todo: assignedTasks.filter(task => task.status === "todo").length,
-      inProgress: assignedTasks.filter(task => task.status === "inProgress").length,
-      review: assignedTasks.filter(task => task.status === "review").length,
-      done: assignedTasks.filter(task => task.status === "done").length,
+      todo: assignedTasks.filter(task => task.status === TaskStatus.TODO).length,
+      inProgress: assignedTasks.filter(task => task.status === TaskStatus.IN_PROGRESS).length,
+      review: assignedTasks.filter(task => task.status === TaskStatus.REVIEW).length,
+      done: assignedTasks.filter(task => task.status === TaskStatus.DONE).length,
     };
     
     const tasksByPriority = {
-      low: assignedTasks.filter(task => task.priority === "low").length,
-      medium: assignedTasks.filter(task => task.priority === "medium").length,
-      high: assignedTasks.filter(task => task.priority === "high").length,
+      low: assignedTasks.filter(task => task.priority === TaskPriority.LOW).length,
+      medium: assignedTasks.filter(task => task.priority === TaskPriority.MEDIUM).length,
+      high: assignedTasks.filter(task => task.priority === TaskPriority.HIGH).length,
     };
     
     return {
@@ -417,7 +418,7 @@ export const getUserDashboardData = (userId: string) => {
       tasksByStatus,
       tasksByPriority,
       completionRate: assignedTasks.length > 0 ? 
-        (assignedTasks.filter(task => task.status === "done").length / assignedTasks.length) : 0,
+        (assignedTasks.filter(task => task.status === TaskStatus.DONE).length / assignedTasks.length) : 0,
     };
   } catch (error) {
     console.error("Error getting dashboard data:", error);
@@ -546,7 +547,7 @@ export const processRecurringTasks = (): void => {
           description: task.description,
           dueDate: task.dueDate,
           priority: task.priority,
-          status: "todo",
+          status: TaskStatus.TODO,
           assigneeId: task.assigneeId,
           creatorId: task.creatorId,
         };
@@ -578,3 +579,4 @@ export const processRecurringTasks = (): void => {
     console.error("Error processing recurring tasks:", error);
   }
 };
+

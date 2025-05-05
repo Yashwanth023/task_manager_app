@@ -36,3 +36,60 @@ export const checkAuditLogsStatus = () => {
   
   console.groupEnd();
 };
+
+/**
+ * Creates a set of sample audit logs for testing and demonstration purposes
+ */
+export const createSampleAuditLogs = () => {
+  const existingLogs = getAuditLogs();
+  
+  // Only create sample logs if there aren't many logs yet
+  if (existingLogs.length < 5) {
+    console.log("Creating sample audit logs for demonstration...");
+    
+    const sampleLogData = [
+      {
+        userId: "system",
+        action: "system" as AuditAction,
+        entityType: "system" as EntityType,
+        entityId: "system-initialization",
+        details: "System initialized with default settings",
+      },
+      {
+        userId: "admin-1",
+        action: "create" as AuditAction,
+        entityType: "task" as EntityType,
+        entityId: "sample-task-1",
+        details: "Created sample task: Project kickoff",
+      },
+      {
+        userId: "admin-1",
+        action: "update" as AuditAction,
+        entityType: "task" as EntityType,
+        entityId: "sample-task-1",
+        details: "Updated sample task status to In Progress",
+      },
+      {
+        userId: "admin-1",
+        action: "create" as AuditAction, 
+        entityType: "user" as EntityType,
+        entityId: "sample-user-1",
+        details: "Created sample user: John Doe",
+      },
+      {
+        userId: "admin-1",
+        action: "assign" as AuditAction,
+        entityType: "task" as EntityType,
+        entityId: "sample-task-1",
+        details: "Assigned task to John Doe",
+      }
+    ];
+    
+    sampleLogData.forEach(logData => {
+      createAuditLog(logData);
+    });
+    
+    console.log("Sample audit logs created successfully!");
+  }
+};
+
