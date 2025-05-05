@@ -2,7 +2,22 @@
 // This file contains sample MongoDB code for database connection and operations.
 // In a real implementation, this would connect to a MongoDB database.
 
-import { MongoClient, ObjectId } from "mongodb";
+// Mock types for MongoDB since we're not actually using MongoDB in this application
+interface MongoClient {
+  connect: () => Promise<void>;
+  db: (name: string) => any;
+  close: () => Promise<void>;
+}
+
+class ObjectId {
+  constructor(id: string) {
+    this.id = id;
+  }
+  id: string;
+  toString() {
+    return this.id;
+  }
+}
 
 // Connection URL and Database Name
 const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
@@ -14,7 +29,25 @@ let client: MongoClient | null = null;
 // Connect to MongoDB
 export async function connectToDatabase() {
   if (!client) {
-    client = new MongoClient(url);
+    // This is just a mock implementation since we're using localStorage
+    client = {
+      connect: async () => {},
+      db: (name: string) => ({
+        collection: (collectionName: string) => ({
+          find: () => ({
+            sort: () => ({
+              toArray: async () => []
+            }),
+            toArray: async () => []
+          }),
+          findOne: async () => null,
+          insertOne: async () => ({ insertedId: new ObjectId('mock-id') }),
+          updateOne: async () => ({ modifiedCount: 1 }),
+          deleteOne: async () => ({ deletedCount: 1 })
+        })
+      }),
+      close: async () => {}
+    } as MongoClient;
     await client.connect();
   }
   return { client, db: client.db(dbName) };

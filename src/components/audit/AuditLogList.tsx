@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import {
   Table,
@@ -21,12 +21,19 @@ import { Button } from "@/components/ui/button";
 import { AuditLog } from "@/types";
 import { getUserById } from "@/lib/local-storage-db";
 import { useAuditLogs } from "@/contexts/AuditLogContext";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export const AuditLogList: React.FC = () => {
-  const { logs } = useAuditLogs();
-  const [actionFilter, setActionFilter] = useState<string>("");
-  const [entityFilter, setEntityFilter] = useState<string>("");
+  const { logs, loading, refreshLogs } = useAuditLogs();
+  const [actionFilter, setActionFilter] = useState<string>("all");
+  const [entityFilter, setEntityFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  // Force refresh logs on component mount
+  useEffect(() => {
+    refreshLogs();
+  }, [refreshLogs]);
 
   // Format date for display
   const formatDate = (dateString: string) => {
@@ -41,8 +48,8 @@ export const AuditLogList: React.FC = () => {
 
   // Apply filters
   const filteredLogs = logs.filter((log) => {
-    const matchesAction = actionFilter ? log.action === actionFilter : true;
-    const matchesEntity = entityFilter ? log.entityType === entityFilter : true;
+    const matchesAction = actionFilter === "all" ? true : log.action === actionFilter;
+    const matchesEntity = entityFilter === "all" ? true : log.entityType === entityFilter;
     const matchesSearch = searchQuery
       ? log.details.toLowerCase().includes(searchQuery.toLowerCase()) ||
         getUserName(log.userId).toLowerCase().includes(searchQuery.toLowerCase())
@@ -50,6 +57,22 @@ export const AuditLogList: React.FC = () => {
 
     return matchesAction && matchesEntity && matchesSearch;
   });
+
+  if (loading) {
+    return <div className="p-4">Loading audit logs...</div>;
+  }
+
+  if (logs.length === 0) {
+    return (
+      <Alert variant="destructive" className="mb-6">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>No audit logs found</AlertTitle>
+        <AlertDescription>
+          There are no audit logs recorded in the system. Logs will appear when users perform actions.
+        </AlertDescription>
+      </Alert>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -67,7 +90,7 @@ export const AuditLogList: React.FC = () => {
               <SelectValue placeholder="Filter by action" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Actions</SelectItem>
+              <SelectItem value="all">All Actions</SelectItem>
               <SelectItem value="create">Create</SelectItem>
               <SelectItem value="update">Update</SelectItem>
               <SelectItem value="delete">Delete</SelectItem>
@@ -80,19 +103,19 @@ export const AuditLogList: React.FC = () => {
               <SelectValue placeholder="Filter by entity" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Entities</SelectItem>
+              <SelectItem value="all">All Entities</SelectItem>
               <SelectItem value="task">Task</SelectItem>
               <SelectItem value="user">User</SelectItem>
             </SelectContent>
           </Select>
 
-          {(searchQuery || actionFilter || entityFilter) && (
+          {(searchQuery || actionFilter !== "all" || entityFilter !== "all") && (
             <Button
               variant="outline"
               onClick={() => {
                 setSearchQuery("");
-                setActionFilter("");
-                setEntityFilter("");
+                setActionFilter("all");
+                setEntityFilter("all");
               }}
             >
               Clear Filters

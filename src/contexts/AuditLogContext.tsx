@@ -1,8 +1,9 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { AuditLog } from "@/types";
-import { getAuditLogs } from "@/lib/local-storage-db";
+import { getAuditLogs, createAuditLog } from "@/lib/local-storage-db";
 import { useAuth } from "./AuthContext";
+import { checkAuditLogsStatus } from "@/lib/debug-utils";
 
 interface AuditLogContextType {
   logs: AuditLog[];
@@ -20,7 +21,19 @@ export const AuditLogProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const refreshLogs = () => {
     // Only admins can see all logs
     if (user && isAdmin()) {
-      setLogs(getAuditLogs());
+      const allLogs = getAuditLogs();
+      
+      // Sort logs by timestamp, most recent first
+      const sortedLogs = [...allLogs].sort((a, b) => 
+        new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+      );
+      
+      setLogs(sortedLogs);
+      
+      // If no logs found, check status in development
+      if (process.env.NODE_ENV !== 'production' && sortedLogs.length === 0) {
+        checkAuditLogsStatus();
+      }
     } else {
       setLogs([]);
     }
