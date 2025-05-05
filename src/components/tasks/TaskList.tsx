@@ -43,8 +43,8 @@ export const TaskList: React.FC<TaskListProps> = ({
   showFilters = true,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<string>("");
-  const [priorityFilter, setPriorityFilter] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [priorityFilter, setPriorityFilter] = useState<string>("all");
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
@@ -56,12 +56,12 @@ export const TaskList: React.FC<TaskListProps> = ({
       task.description.toLowerCase().includes(searchQuery.toLowerCase());
 
     // Filter by status
-    const matchesStatus = statusFilter ? task.status === statusFilter : true;
+    const matchesStatus = statusFilter === "all" ? true : task.status === statusFilter;
 
     // Filter by priority
-    const matchesPriority = priorityFilter
-      ? task.priority === priorityFilter
-      : true;
+    const matchesPriority = priorityFilter === "all"
+      ? true
+      : task.priority === priorityFilter;
 
     return matchesSearch && matchesStatus && matchesPriority;
   });
@@ -107,7 +107,7 @@ export const TaskList: React.FC<TaskListProps> = ({
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Statuses</SelectItem>
+                <SelectItem value="all">All Statuses</SelectItem>
                 <SelectItem value={TaskStatus.TODO}>To Do</SelectItem>
                 <SelectItem value={TaskStatus.IN_PROGRESS}>In Progress</SelectItem>
                 <SelectItem value={TaskStatus.REVIEW}>Review</SelectItem>
@@ -123,20 +123,20 @@ export const TaskList: React.FC<TaskListProps> = ({
                 <SelectValue placeholder="Filter by priority" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Priorities</SelectItem>
+                <SelectItem value="all">All Priorities</SelectItem>
                 <SelectItem value={TaskPriority.LOW}>Low</SelectItem>
                 <SelectItem value={TaskPriority.MEDIUM}>Medium</SelectItem>
                 <SelectItem value={TaskPriority.HIGH}>High</SelectItem>
               </SelectContent>
             </Select>
 
-            {(searchQuery || statusFilter || priorityFilter) && (
+            {(searchQuery || statusFilter !== "all" || priorityFilter !== "all") && (
               <Button
                 variant="outline"
                 onClick={() => {
                   setSearchQuery("");
-                  setStatusFilter("");
-                  setPriorityFilter("");
+                  setStatusFilter("all");
+                  setPriorityFilter("all");
                 }}
               >
                 Clear Filters

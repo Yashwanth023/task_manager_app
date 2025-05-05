@@ -35,6 +35,10 @@ const TasksPage: React.FC = () => {
     setIsCreateTaskDialogOpen(false);
     setEditingTask(null);
   };
+  
+  const handleDeleteTask = (task: any) => {
+    deleteTask(task.id);
+  };
 
   return (
     <div className="container mx-auto py-6 space-y-6 animate-fade-in">
@@ -62,7 +66,7 @@ const TasksPage: React.FC = () => {
           <TaskList
             tasks={assignedTasks}
             onEdit={handleEditTask}
-            onDelete={deleteTask}
+            onDelete={handleDeleteTask}
           />
         </TabsContent>
 
@@ -70,7 +74,7 @@ const TasksPage: React.FC = () => {
           <TaskList
             tasks={createdTasks}
             onEdit={handleEditTask}
-            onDelete={deleteTask}
+            onDelete={handleDeleteTask}
           />
         </TabsContent>
 
@@ -78,7 +82,7 @@ const TasksPage: React.FC = () => {
           <TaskList
             tasks={overdueTasks}
             onEdit={handleEditTask}
-            onDelete={deleteTask}
+            onDelete={handleDeleteTask}
           />
         </TabsContent>
       </Tabs>

@@ -180,6 +180,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, onSuccess, onCancel })
                       selected={field.value}
                       onSelect={field.onChange}
                       initialFocus
+                      className="p-3 pointer-events-auto"
                     />
                   </PopoverContent>
                 </Popover>
@@ -261,7 +262,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ task, onSuccess, onCancel })
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="">Unassigned</SelectItem>
+                    <SelectItem value="unassigned">Unassigned</SelectItem>
                     {users.map((user) => (
                       <SelectItem key={user.id} value={user.id}>
                         {user.name}
