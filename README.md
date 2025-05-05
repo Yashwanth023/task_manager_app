@@ -125,6 +125,3 @@ TaskFlow supports importing and exporting task data in CSV format, making it eas
 - Safari (latest 2 versions)
 - Edge (latest 2 versions)
 - Opera (latest version)
-
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
